@@ -1,10 +1,7 @@
 import { Collection, Db, MongoClient } from 'mongodb'
 import User from '~/models/schemas/User.schema'
 import { envConfig } from '~/constants/config'
-import RefreshToken from '~/models/schemas/refreshtoken.schema'
-
-
-
+import RefreshToken from '~/models/schemas/RefreshToken.schema'
 const uri = `mongodb+srv://${envConfig.dbUsername}:${envConfig.dbPassword}@myproject.ifuwkkq.mongodb.net/?retryWrites=true&w=majority&appName=MyProject`
 
 class DatabaseService {
@@ -23,11 +20,11 @@ class DatabaseService {
       throw error
     }
   }
-  get users():Collection<User> {
+  get users(): Collection<User> {
     return this.db.collection('users')
   }
 
-  get refreshTokens():Collection<RefreshToken> {
+  get refreshTokens(): Collection<RefreshToken> {
     return this.db.collection('refresh_tokens')
   }
 }

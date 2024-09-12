@@ -109,8 +109,8 @@ export const registerValidator = validate(
           }
         }
       },
-      password: passwordSchema,
-      confirm_password: confirmPasswordSchema,
+      // password: passwordSchema,
+      // confirm_password: confirmPasswordSchema,
       date_of_birth: dateOfBirthSchema
     },
     ['body']

@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "npx nodemon --development",
+    "debug": "nodemon --inspect app.js",
     "build": "rimraf ./dist && tsc && tsc-alias",
     "start": "node dist/index.js",
     "lint": "eslint .",
@@ -33,11 +34,13 @@
     "typescript": "^5.5.2"
   },
   "dependencies": {
+    "@types/lodash": "^4.17.7",
     "compression": "^1.7.4",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "express-validator": "^7.1.0",
     "jsonwebtoken": "^9.0.2",
+    "lodash": "^4.17.21",
     "mongodb": "^6.8.0"
   }
 }

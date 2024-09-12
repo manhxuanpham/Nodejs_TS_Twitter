@@ -7,7 +7,7 @@ import { signToken, verifyToken } from '~/utils/jwt'
 import { TokenType } from '~/constants/enums'
 import { envConfig } from '~/constants/config'
 import { hashPassword } from '~/utils/crypto'
-import RefreshToken from '~/models/schemas/refreshtoken.schema'
+import RefreshToken from '~/models/schemas/RefreshToken.schema'
 
 class UserService {
   private signAccessToken({ user_id, verify }: { user_id: string; verify: UserVerifyStatus }) {
@@ -17,7 +17,7 @@ class UserService {
         typeToken: 'access token',
         verify
       },
-      privateKey: '',
+      privateKey: envConfig.jwtSecretAccessToken,
       options: {
         expiresIn: '1d'
       }
@@ -75,10 +75,10 @@ class UserService {
   }
   async register(payload: RegisterReqBody) {
     const user_id = new ObjectId()
-    const email_verify_token = (await this.signEmailVerifyToken({
+    const email_verify_token = await this.signEmailVerifyToken({
       user_id: user_id.toString(),
       verify: UserVerifyStatus.Unverified
-    })) as string
+    })
     await databaseService.users.insertOne(
       new User({
         ...payload,
@@ -94,6 +94,7 @@ class UserService {
       verify: UserVerifyStatus.Unverified
     })
     const { iat, exp } = await this.decodeRefreshToken(refresh_token)
+    
     await databaseService.refreshTokens.insertOne(
       new RefreshToken({ user_id: new ObjectId(user_id), token: refresh_token, iat, exp })
     )
@@ -103,7 +104,7 @@ class UserService {
     // 3. Client send request to server with email_verify_token
     // 4. Server verify email_verify_token
     // 5. Client receive access_token and refresh_token
-    await sendVerifyRegisterEmail(payload.email, email_verify_token)
+    // await sendVerifyRegisterEmail(payload.email, email_verify_token)
     return {
       access_token,
       refresh_token
