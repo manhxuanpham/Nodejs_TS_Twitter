@@ -16,3 +16,8 @@ export interface TokenPayload extends JwtPayload {
   exp: number
   iat: number
 }
+
+export interface LoginReqBody {
+  email: string
+  password: string
+}

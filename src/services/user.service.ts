@@ -94,7 +94,7 @@ class UserService {
       verify: UserVerifyStatus.Unverified
     })
     const { iat, exp } = await this.decodeRefreshToken(refresh_token)
-    
+
     await databaseService.refreshTokens.insertOne(
       new RefreshToken({ user_id: new ObjectId(user_id), token: refresh_token, iat, exp })
     )
@@ -105,6 +105,21 @@ class UserService {
     // 4. Server verify email_verify_token
     // 5. Client receive access_token and refresh_token
     // await sendVerifyRegisterEmail(payload.email, email_verify_token)
+    return {
+      access_token,
+      refresh_token
+    }
+  }
+  async login({ user_id, verify }: { user_id: string; verify: UserVerifyStatus }) {
+    const [access_token, refresh_token] = await this.signAccessAndRefreshToken({
+      user_id,
+      verify
+    })
+    const { iat, exp } = await this.decodeRefreshToken(refresh_token)
+
+    await databaseService.refreshTokens.insertOne(
+      new RefreshToken({ user_id: new ObjectId(user_id), token: refresh_token, iat, exp })
+    )
     return {
       access_token,
       refresh_token
