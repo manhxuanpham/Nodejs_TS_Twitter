@@ -5,9 +5,11 @@ import { Request, Response, NextFunction } from 'express'
 import { defaultErrorHandler } from './middlewares/error.middlewares'
 import databaseService from './services/database.service'
 import usersRouter from './routers/user.router'
-
+import morgan from 'morgan'
 
 const app = express()
+
+app.use(morgan('combined'))  // 'combined ' cung cấp log đầy đủ theo kiểu Apache
 
 app.use(express.json())
 databaseService.connect()

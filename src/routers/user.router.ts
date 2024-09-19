@@ -12,4 +12,5 @@ const usersRouter = Router()
  */
 usersRouter.post('/register', registerValidator, wrapRequestHandler(registerController))
 usersRouter.post('/login', loginValidator, wrapRequestHandler(loginController))
+
 export default usersRouter
