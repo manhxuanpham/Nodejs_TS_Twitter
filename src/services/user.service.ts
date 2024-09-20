@@ -8,6 +8,7 @@ import { TokenType } from '~/constants/enums'
 import { envConfig } from '~/constants/config'
 import { hashPassword } from '~/utils/crypto'
 import RefreshToken from '~/models/schemas/RefreshToken.schema'
+import { USERS_MESSAGES } from '~/constants/messages'
 
 class UserService {
   private signAccessToken({ user_id, verify }: { user_id: string; verify: UserVerifyStatus }) {
@@ -124,6 +125,9 @@ class UserService {
       access_token,
       refresh_token
     }
+  }
+  async logout(refresh_token: string) {
+    return await databaseService.refreshTokens.deleteOne({ token: refresh_token })
   }
 }
 
