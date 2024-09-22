@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { forgotPasswordController, loginController, logoutController, registerController, resendVerifyEmailController, resetPasswordController, verifyEmailController, verifyForgotPasswordController } from '~/controllers/user.controller'
+import { forgotPasswordController, getMeController, loginController, logoutController, registerController, resendVerifyEmailController, resetPasswordController, verifyEmailController, verifyForgotPasswordController } from '~/controllers/user.controller'
 import {
   accessTokenValidator,
   emailVerifyTokenValidator,
@@ -76,6 +76,14 @@ usersRouter.post(
  * Body: {forgot_password_token: string, password: string, confirm_password: string}
  */
 usersRouter.post('/reset-password', resetPasswordValidator, wrapRequestHandler(resetPasswordController))
+
+/**
+ * Description: Get my profile
+ * Path: /me
+ * Method: GET
+ * Header: { Authorization: Bearer <access_token> }
+ */
+usersRouter.get('/me', accessTokenValidator, wrapRequestHandler(getMeController))
 
 
 
