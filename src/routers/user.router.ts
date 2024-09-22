@@ -1,7 +1,8 @@
 import { Router } from 'express'
-import { loginController, logoutController, registerController } from '~/controllers/user.controller'
+import { loginController, logoutController, registerController, verifyEmailController } from '~/controllers/user.controller'
 import {
   accessTokenValidator,
+  emailVerifyTokenValidator,
   loginValidator,
   refreshTokenValidator,
   registerValidator
@@ -16,7 +17,12 @@ const usersRouter = Router()
  * Body: { name: string, email: string, password: string, confirm_password: string, date_of_birth: ISO8601 }
  */
 usersRouter.post('/register', registerValidator, wrapRequestHandler(registerController))
-
+/**
+ * Description. login a  user
+ * Path: /login
+ * Method: POST
+ * Body: { name: string, email: string, password: string }
+ */
 usersRouter.post('/login', loginValidator, wrapRequestHandler(loginController))
 /**
  * Description. Logout a user
@@ -26,5 +32,21 @@ usersRouter.post('/login', loginValidator, wrapRequestHandler(loginController))
  * Body: { refresh_token: string }
  */
 usersRouter.post('/logout', accessTokenValidator, refreshTokenValidator, wrapRequestHandler(logoutController))
+
+/**
+ * Description. Verify email when user client click on the link in email
+ * Path: /verify-email
+ * Method: POST
+ * Body: { email_verify_token: string }
+ */
+usersRouter.post('/verify-email', emailVerifyTokenValidator, wrapRequestHandler(verifyEmailController))
+/**
+ * Description. Verify email when user client click on the link in email
+ * Path: /resend-verify-email
+ * Method: POST
+ * Header: { Authorization: Bearer <access_token> }
+ * Body: {}
+ */
+
 
 export default usersRouter

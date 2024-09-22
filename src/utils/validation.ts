@@ -31,6 +31,5 @@ export const validate = (validation: RunnableValidationChains<ValidationChain>) 
     }
 
     next(entityError)
-    res.status(400).json({ errors: errors.mapped() })
   }
 }

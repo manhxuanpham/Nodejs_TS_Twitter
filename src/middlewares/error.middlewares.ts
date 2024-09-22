@@ -21,7 +21,8 @@ export const defaultErrorHandler = (err: any, req: Request, res: Response, next:
     })
     res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json({
       message: finalError.message,
-      errorInfo: omit(finalError, ['stack'])
+      
+      errorInfo: omit(finalError)
     })
   } catch (error) {
     res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json({
